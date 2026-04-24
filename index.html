@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Space Life on the Moon — 月面生活ツールキット</title>
+  <meta name="description" content="月面基地での暮らしを考えるためのツールキット。10の生活カテゴリと100の研究事例を収録。無料ダウンロード。">
+  <meta property="og:title" content="Space Life on the Moon — 月面生活ツールキット">
+  <meta property="og:description" content="2028年、人類は再び月に立つ。月面での「暮らし」を考えるための100のリサーチを、あなたの手に。">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --moon-gold: #b8976a;
+      --moon-gold-light: #d4bb94;
+      --moon-dark: #1a1a2e;
+      --moon-navy: #16213e;
+      --moon-blue: #0f3460;
+      --moon-surface: #e8e0d4;
+      --moon-cream: #f5f0e8;
+      --moon-white: #faf8f5;
+      --text-primary: #1a1a2e;
+      --text-secondary: #5a5a6e;
+      --text-light: #8a8a9e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'Noto Sans JP', sans-serif;
+      color: var(--text-primary);
+      background: var(--moon-white);
+      overflow-x: hidden;
+    }
+
+    .font-space { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(180deg, rgba(10,10,26,0.85) 0%, rgba(26,26,46,0.8) 40%, rgba(42,42,78,0.85) 100%),
+                  url('images/hero_base.jpg') center 40% / cover no-repeat;
+      overflow: hidden;
+      text-align: center;
+      color: #fff;
+    }
+
+    .stars {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+    }
+
+    .star {
+      position: absolute;
+      background: #fff;
+      border-radius: 50%;
+      animation: twinkle var(--duration) ease-in-out infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: var(--min-opacity, 0.2); }
+      50% { opacity: 1; }
+    }
+
+    .moon-glow {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+      top: 10%;
+      right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 2rem;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(184, 151, 106, 0.2);
+      border: 1px solid rgba(184, 151, 106, 0.4);
+      border-radius: 100px;
+      padding: 8px 20px;
+      font-size: 0.85rem;
+      color: var(--moon-gold-light);
+      letter-spacing: 0.1em;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      background: var(--moon-gold);
+      border-radius: 50%;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.3); }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+      letter-spacing: -0.02em;
+    }
+
+    .hero h1 .accent {
+      background: linear-gradient(135deg, var(--moon-gold) 0%, var(--moon-gold-light) 50%, #e8d5b0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: rgba(255,255,255,0.7);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      font-weight: 300;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--moon-gold) 0%, var(--moon-gold-light) 100%);
+      color: var(--moon-dark);
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(184, 151, 106, 0.3);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 100px;
+      font-weight: 500;
+      font-size: 1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,0.4);
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
+      animation: bounce-hint 2s ease-in-out infinite;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.3);
+      margin: 8px auto 0;
+    }
+
+    @keyframes bounce-hint {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ===== SECTION SHARED ===== */
+    section {
+      padding: 6rem 2rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--moon-gold);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      line-height: 1.3;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      max-width: 700px;
+    }
+
+    /* ===== STORY SECTION ===== */
+    .story {
+      background: var(--moon-cream);
+      position: relative;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      margin-top: 3rem;
+    }
+
+    .story-visual {
+      position: relative;
+    }
+
+    .story-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--moon-gold), var(--moon-gold-light));
+    }
+
+    .story-card-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      color: var(--moon-gold);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .story-card h3 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .story-card p {
+      color: var(--text-secondary);
+      line-height: 1.8;
+      font-size: 0.95rem;
+    }
+
+    .story-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .story-arrow svg {
+      width: 48px;
+      height: 48px;
+      color: var(--moon-gold);
+      animation: arrow-bounce 1.5s ease-in-out infinite;
+    }
+
+    @keyframes arrow-bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); }
+    }
+
+    .story-text {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      line-height: 2;
+    }
+
+    .story-text strong {
+      color: var(--text-primary);
+      font-weight: 700;
+    }
+
+    .story-highlight {
+      background: linear-gradient(135deg, rgba(184,151,106,0.1), rgba(184,151,106,0.05));
+      border-left: 3px solid var(--moon-gold);
+      padding: 1.5rem 2rem;
+      border-radius: 0 12px 12px 0;
+      margin: 2rem 0;
+    }
+
+    .story-highlight p {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    .iss-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--moon-dark);
+      color: var(--moon-gold-light);
+      padding: 6px 14px;
+      border-radius: 100px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+
+    /* ===== MOON FACTS ===== */
+    .facts {
+      background: var(--moon-dark);
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .facts::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(184,151,106,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .facts .section-desc {
+      color: rgba(255,255,255,0.6);
+    }
+
+    .facts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .fact-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fact-card:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(184,151,106,0.3);
+      transform: translateY(-4px);
+    }
+
+    .fact-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--moon-gold), var(--moon-gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .fact-label {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #fff;
+    }
+
+    .fact-desc {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    /* ===== CATEGORIES ===== */
+    .categories {
+      background: var(--moon-white);
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .cat-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.04);
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cat-card::after {
+      content: attr(data-count);
+      position: absolute;
+      bottom: -5px; right: 8px;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 700;
+      color: rgba(0,0,0,0.03);
+      line-height: 1;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+      border-color: var(--moon-gold);
+    }
+
+    .cat-icon {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 1rem;
+      color: var(--moon-gold);
+    }
+
+    .cat-icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .cat-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .cat-desc {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+
+    .cat-count {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      color: var(--moon-gold);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+    }
+
+    /* ===== BASE MODULES ===== */
+    .modules {
+      background: var(--moon-cream);
+      overflow: hidden;
+    }
+
+    .module-showcase {
+      margin-top: 3rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+
+    .module-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 1.8rem;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(0,0,0,0.04);
+      position: relative;
+    }
+
+    .module-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 35px rgba(0,0,0,0.07);
+    }
+
+    .module-num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      color: var(--moon-gold);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .module-name {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .module-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .module-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+      background: var(--moon-surface);
+    }
+
+    /* ===== DOWNLOAD CTA ===== */
+    .download {
+      background: linear-gradient(135deg, var(--moon-dark) 0%, var(--moon-navy) 50%, var(--moon-blue) 100%);
+      color: #fff;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 8rem 2rem;
+    }
+
+    .download::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .download-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      max-width: 800px;
+      margin: 3rem auto 0;
+      text-align: left;
+    }
+
+    .dl-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2.5rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .dl-card:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--moon-gold);
+      transform: translateY(-4px);
+    }
+
+    .dl-card h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .dl-card p {
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+
+    .dl-card .btn-primary {
+      width: 100%;
+      justify-content: center;
+      padding: 14px 24px;
+      font-size: 0.9rem;
+    }
+
+    .dl-card-tag {
+      display: inline-block;
+      background: rgba(184,151,106,0.2);
+      color: var(--moon-gold-light);
+      padding: 4px 12px;
+      border-radius: 100px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    /* ===== ABOUT ===== */
+    .about {
+      background: var(--moon-white);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      margin-top: 3rem;
+    }
+
+    .about-org {
+      background: #fff;
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .about-org h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .about-org .org-type {
+      font-size: 0.8rem;
+      color: var(--moon-gold);
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+
+    .about-org p {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--moon-dark);
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      padding: 3rem 2rem;
+      font-size: 0.85rem;
+    }
+
+    footer a {
+      color: var(--moon-gold-light);
+      text-decoration: none;
+    }
+
+    /* ===== STICKY CTA ===== */
+    .sticky-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0; right: 0;
+      background: rgba(26,26,46,0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      z-index: 100;
+      transform: translateY(100%);
+      transition: transform 0.4s ease;
+      border-top: 1px solid rgba(184,151,106,0.2);
+    }
+
+    .sticky-cta.visible {
+      transform: translateY(0);
+    }
+
+    .sticky-cta p {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.9rem;
+    }
+
+    .sticky-cta .btn-primary {
+      padding: 12px 28px;
+      font-size: 0.9rem;
+    }
+
+    /* ===== TIMELINE ===== */
+    .timeline {
+      background: var(--moon-white);
+      overflow: hidden;
+    }
+
+    .timeline-track {
+      display: flex;
+      align-items: flex-start;
+      gap: 0;
+      margin-top: 3rem;
+      position: relative;
+      padding: 2rem 0;
+    }
+
+    .timeline-track::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--moon-gold), var(--moon-gold-light), var(--moon-gold));
+      transform: translateY(-50%);
+    }
+
+    .timeline-item {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      padding: 0 0.5rem;
+    }
+
+    .timeline-dot {
+      width: 14px; height: 14px;
+      background: var(--moon-gold);
+      border: 3px solid var(--moon-white);
+      border-radius: 50%;
+      margin: 0 auto;
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 0 0 3px rgba(184,151,106,0.2);
+    }
+
+    .timeline-dot.highlight {
+      width: 18px; height: 18px;
+      background: #fff;
+      border-color: var(--moon-gold);
+      box-shadow: 0 0 0 4px rgba(184,151,106,0.3), 0 0 20px rgba(184,151,106,0.2);
+    }
+
+    .timeline-year {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--moon-gold);
+      margin-top: 1rem;
+    }
+
+    .timeline-year.highlight {
+      font-size: 1.6rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+      line-height: 1.5;
+    }
+
+    /* ===== NUMBER COUNTER ===== */
+    .numbers-strip {
+      background: var(--moon-gold);
+      color: var(--moon-dark);
+      padding: 3rem 2rem;
+    }
+
+    .numbers-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .number-item {
+      text-align: center;
+    }
+
+    .number-item .num {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+    }
+
+    .number-item .label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-top: 0.25rem;
+    }
+
+    /* ===== ANIMATIONS ===== */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-in-delay-1 { transition-delay: 0.1s; }
+    .fade-in-delay-2 { transition-delay: 0.2s; }
+    .fade-in-delay-3 { transition-delay: 0.3s; }
+    .fade-in-delay-4 { transition-delay: 0.4s; }
+
+    /* ===== FLOATING PARTICLES ===== */
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .cat-grid { grid-template-columns: repeat(3, 1fr); }
+      .module-showcase { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      section { padding: 4rem 1.5rem; }
+      .story-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .module-showcase { grid-template-columns: 1fr; }
+      .download-cards { grid-template-columns: 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .facts-grid { grid-template-columns: repeat(2, 1fr); }
+      .timeline-track { flex-direction: column; gap: 1.5rem; }
+      .timeline-track::before {
+        top: 0; bottom: 0;
+        left: 50%; right: auto;
+        width: 2px; height: 100%;
+        transform: translateX(-50%);
+      }
+      .numbers-inner { flex-direction: column; gap: 1.5rem; }
+      .sticky-cta { flex-direction: column; gap: 0.75rem; padding: 1rem; }
+    }
+
+    @media (max-width: 480px) {
+      .cat-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+    }
+
+    /* ===== MARQUEE ===== */
+    .marquee-container {
+      overflow: hidden;
+      background: var(--moon-surface);
+      padding: 1rem 0;
+      border-top: 1px solid rgba(0,0,0,0.04);
+      border-bottom: 1px solid rgba(0,0,0,0.04);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 3rem;
+      animation: marquee 30s linear infinite;
+      width: max-content;
+    }
+
+    .marquee-item {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      white-space: nowrap;
+      letter-spacing: 0.05em;
+    }
+
+    .marquee-item .gold {
+      color: var(--moon-gold);
+      font-weight: 600;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" id="top">
+    <div class="stars" id="stars"></div>
+    <div class="moon-glow"></div>
+
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        <span class="font-space">JAXA SPACE LIFE ON THE MOON</span>
+      </div>
+
+      <h1>
+        月面での<span class="accent">暮らし</span>を<br>
+        考えよう。
+      </h1>
+
+      <p class="hero-sub">
+        2028年、Apollo以来55年ぶりに人類は月面に降り立つ。<br>
+        そのとき、私たちはそこでどう「暮らす」のか？<br>
+        月面生活を考えるための100のリサーチを、あなたの手に。
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="#download" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          無料ダウンロード
+        </a>
+        <a href="#about-toolkit" class="btn-secondary">
+          ツールキットを知る
+        </a>
+      </div>
+    </div>
+
+    <div class="scroll-hint font-space">SCROLL</div>
+  </section>
+
+  <!-- ===== MARQUEE ===== -->
+  <div class="marquee-container">
+    <div class="marquee-track">
+      <span class="marquee-item"><span class="gold">100</span> research cases</span>
+      <span class="marquee-item"><span class="gold">10</span> life categories</span>
+      <span class="marquee-item"><span class="gold">8</span> base modules</span>
+      <span class="marquee-item"><span class="gold">49+</span> research sources worldwide</span>
+      <span class="marquee-item"><span class="gold">NASA</span> / <span class="gold">JAXA</span> / <span class="gold">ESA</span> / <span class="gold">CNSA</span></span>
+      <span class="marquee-item">Free Download</span>
+      <span class="marquee-item"><span class="gold">100</span> research cases</span>
+      <span class="marquee-item"><span class="gold">10</span> life categories</span>
+      <span class="marquee-item"><span class="gold">8</span> base modules</span>
+      <span class="marquee-item"><span class="gold">49+</span> research sources worldwide</span>
+      <span class="marquee-item"><span class="gold">NASA</span> / <span class="gold">JAXA</span> / <span class="gold">ESA</span> / <span class="gold">CNSA</span></span>
+      <span class="marquee-item">Free Download</span>
+    </div>
+  </div>
+
+  <!-- ===== NUMBERS STRIP ===== -->
+  <div class="numbers-strip">
+    <div class="numbers-inner">
+      <div class="number-item">
+        <div class="num font-space">1/6 G</div>
+        <div class="label">月面の重力</div>
+      </div>
+      <div class="number-item">
+        <div class="num font-space">-173&#8451;</div>
+        <div class="label">夜間温度</div>
+      </div>
+      <div class="number-item">
+        <div class="num font-space">29.5 days</div>
+        <div class="label">月の1日</div>
+      </div>
+      <div class="number-item">
+        <div class="num font-space">1.3 sec</div>
+        <div class="label">通信遅延（片道）</div>
+      </div>
+      <div class="number-item">
+        <div class="num font-space">384,400 km</div>
+        <div class="label">地球からの距離</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STORY ===== -->
+  <section class="story" id="about-toolkit">
+    <div class="container">
+      <div class="section-label font-space">OUR STORY</div>
+      <h2 class="section-title fade-in">宇宙での暮らしを<br>デザインする冒険</h2>
+
+      <div class="story-grid">
+        <div class="story-visual">
+          <div class="story-card fade-in">
+            <div class="story-card-label">VOL.1 — ISS EDITION</div>
+            <h3>Think Space Life<br>宇宙生活ストーリーブック</h3>
+            <p>
+              NPO法人ミラツクがJAXAと共同で制作した、ISS（国際宇宙ステーション）での暮らしを考えるためのストーリーブック。宇宙飛行士の日常から着想を得て、地上のものづくり企業とともに「宇宙で使える生活用品」をデザインするプロジェクト。
+            </p>
+            <div class="iss-badge">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              ISS搭載実績あり
+            </div>
+          </div>
+
+          <div class="story-arrow">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+          </div>
+
+          <div class="story-card fade-in fade-in-delay-2">
+            <div class="story-card-label">VOL.2 — MOON EDITION</div>
+            <h3>Space Life on the Moon<br>月面生活ツールキット</h3>
+            <p>
+              第2弾となる本作では、舞台をISSから月面基地へ。重力1/6、極端な温度差、月面レゴリス ── 地球とは全く異なる環境で人が暮らすとき、どんな生活用品が必要になるか。100のリサーチで月面生活を解き明かします。
+            </p>
+          </div>
+        </div>
+
+        <div class="story-text fade-in fade-in-delay-1">
+          <p>
+            このプロジェクトは「Think Space Life」の名で始まりました。
+          </p>
+          <br>
+          <p>
+            ISS（国際宇宙ステーション）で暮らす宇宙飛行士たち。限られた空間で半年間を過ごす彼らの生活を支えるために、<strong>日本のものづくり企業が本気で考えた生活用品</strong>が、実際にISSに届けられました。
+          </p>
+
+          <div class="story-highlight">
+            <p>
+              花王の水を使わない洗濯シート「Space Laundry Sheet」、マンダムの宇宙用ボディペーパー「ギャツビー スペースシャワーペーパー」、スノーピークの船内服「Earthian Wear」── これらは全て、このプロジェクトから生まれ、実際にISSに搭載された生活用品です。
+            </p>
+          </div>
+
+          <p>
+            そして今、私たちの目は月面へ。<strong>2028年のArtemis IV計画</strong>により、人類は55年ぶりに月面に降り立ちます。ISSとは異なる月面特有の環境 ── 1/6の重力、鋭角的なレゴリス粒子、極端な温度差 ── の中で、人はどう「暮らす」のか。
+          </p>
+          <br>
+          <p>
+            <strong>「Space Life on the Moon」</strong>は、この問いに向き合うためのツールキットです。世界中の研究機関・宇宙機関のリサーチ100件を、10の生活カテゴリと8つの基地モジュールに整理。月面での暮らしを考えるための「知」を、誰でも手に取れる形にしました。
+          </p>
+          <br>
+          <p style="color: var(--moon-gold); font-weight: 500;">
+            知を分かち合うことで、月面での「暮らし」のアイデアを、もっと豊かに。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== TIMELINE ===== -->
+  <section class="timeline">
+    <div class="container">
+      <div class="section-label font-space">HISTORY</div>
+      <h2 class="section-title fade-in">月面基地に至る人類の歩み</h2>
+      <p class="section-desc fade-in">Apollo以来50年以上の空白を経て、人類は再び月を目指す。</p>
+
+      <div class="timeline-track fade-in">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year font-space">1969</div>
+          <div class="timeline-desc">Apollo 11<br>人類初の月面歩行</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year font-space">1972</div>
+          <div class="timeline-desc">Apollo 17<br>最後の有人月面探査</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year font-space">2019</div>
+          <div class="timeline-desc">Chang'e 4<br>月裏側着陸成功</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year font-space">2025</div>
+          <div class="timeline-desc">商用月面着陸<br>の幕開け</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot highlight"></div>
+          <div class="timeline-year font-space highlight">2028</div>
+          <div class="timeline-desc"><strong>Artemis IV</strong><br>Apollo以来の有人着陸</div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year font-space">2030s</div>
+          <div class="timeline-desc">Base Camp建設<br>月面基地時代の始まり</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MOON FACTS ===== -->
+  <section class="facts">
+    <div class="container">
+      <div class="section-label font-space">LUNAR ENVIRONMENT</div>
+      <h2 class="section-title fade-in" style="color:#fff">月面は、過酷で<br>美しい世界。</h2>
+      <p class="section-desc fade-in">人が暮らすために理解すべき月面環境の基礎知識。</p>
+
+      <div class="facts-grid">
+        <div class="fact-card fade-in">
+          <div class="fact-number font-space">1/6 G</div>
+          <div class="fact-label">低重力環境</div>
+          <div class="fact-desc">月面の重力は地球の6分の1。骨密度低下や筋萎縮が進行するが、ISSの微小重力よりは緩和される。歩行や作業は可能だが、全く異なる身体感覚に。</div>
+        </div>
+        <div class="fact-card fade-in fade-in-delay-1">
+          <div class="fact-number font-space">300&times;</div>
+          <div class="fact-label">温度差</div>
+          <div class="fact-desc">昼間+127℃、夜間-173℃。約300℃の温度差が14.75地球日ごとに繰り返される。居住モジュールの断熱設計が生命線。</div>
+        </div>
+        <div class="fact-card fade-in fade-in-delay-2">
+          <div class="fact-number font-space">0 atm</div>
+          <div class="fact-label">真空環境</div>
+          <div class="fact-desc">大気がほぼ存在しない真空状態。宇宙放射線が直接到達し、隕石衝突からの防護もない。外出には常に宇宙服が必要。</div>
+        </div>
+        <div class="fact-card fade-in fade-in-delay-3">
+          <div class="fact-number font-space">0.3 mg/m&sup3;</div>
+          <div class="fact-label">月面レゴリス</div>
+          <div class="fact-desc">微細で鋭角的な砂塵が静電気で付着。ナノスケール鉄が活性酸素を生成し吸入で肺障害リスク。Apollo飛行士も鼻腔充血を経験。</div>
+        </div>
+        <div class="fact-card fade-in fade-in-delay-4">
+          <div class="fact-number font-space">H&#8322;O</div>
+          <div class="fact-label">水氷資源</div>
+          <div class="fact-desc">南極・北極の永久影地帯に数百万トンの水氷が確認。飲料水・農業用水・ロケット燃料の原料として、月面基地の立地を決める最重要資源。</div>
+        </div>
+        <div class="fact-card fade-in">
+          <div class="fact-number font-space">1.3 s</div>
+          <div class="fact-label">通信遅延</div>
+          <div class="fact-desc">地球-月間の通信遅延は約1.3秒（片道）。リアルタイム会話は可能だが、緊急時の自律的な意思決定能力が求められる。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 10 CATEGORIES ===== -->
+  <section class="categories" id="categories">
+    <div class="container">
+      <div class="section-label font-space">10 CATEGORIES</div>
+      <h2 class="section-title fade-in">月面生活、<br>10のカテゴリで考える。</h2>
+      <p class="section-desc fade-in">食・水・衛生から娯楽まで。月面での暮らしに必要なすべてを、10の領域に整理しました。各カテゴリ10件、合計100のリサーチ事例を収録。</p>
+
+      <div class="cat-grid">
+        <div class="cat-card fade-in" data-count="01">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 28c0-8 4-16 16-16s16 8 16 16"/><path d="M6 28h36v2c0 4-4 8-18 8S6 34 6 30v-2z"/><circle cx="16" cy="22" r="2"/><circle cx="32" cy="22" r="2"/><path d="M22 18v4M26 16v6"/></svg></div>
+          <div class="cat-name">食</div>
+          <div class="cat-desc">食料生産・調理・栄養管理</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-1" data-count="02">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4c-4 8-12 12-12 20a12 12 0 0 0 24 0c0-8-8-12-12-20z"/><path d="M18 30c0 3.3 2.7 6 6 6s6-2.7 6-6"/></svg></div>
+          <div class="cat-name">水</div>
+          <div class="cat-desc">水資源の確保・循環・浄化</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-2" data-count="03">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 8h8l2 6H18l2-6z"/><rect x="14" y="14" width="20" height="26" rx="4"/><path d="M20 22h8M20 28h8M20 34h4"/></svg></div>
+          <div class="cat-name">衛生</div>
+          <div class="cat-desc">個人衛生・微生物管理・廃棄物</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-3" data-count="04">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M24 4v16M16 12h16"/><rect x="10" y="24" width="28" height="18" rx="4"/><circle cx="20" cy="33" r="3"/><circle cx="28" cy="33" r="3"/><path d="M23 30h2"/></svg></div>
+          <div class="cat-name">医療</div>
+          <div class="cat-desc">遠隔医療・放射線防護・メンタル</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-4" data-count="05">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="12" r="6"/><path d="M14 44l4-18h12l4 18"/><path d="M18 32h12"/><path d="M10 38l8-6M38 38l-8-6"/></svg></div>
+          <div class="cat-name">運動</div>
+          <div class="cat-desc">筋力維持・骨密度保全・リハビリ</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in" data-count="06">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8h16v4c0 2-2 4-4 4h-8c-2 0-4-2-4-4V8z"/><path d="M14 16l-2 24h24l-2-24"/><path d="M20 16v24M28 16v24"/><path d="M12 28h24"/></svg></div>
+          <div class="cat-name">衣服</div>
+          <div class="cat-desc">宇宙服・船内着・スマートテキスタイル</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-1" data-count="07">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="24" cy="24" r="16"/><path d="M24 8v6M24 34v6M8 24h6M34 24h6"/><circle cx="24" cy="24" r="6"/><path d="M20 20l-6-6M28 20l6-6"/></svg></div>
+          <div class="cat-name">通信</div>
+          <div class="cat-desc">通信インフラ・心理的接続・チーム支援</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-2" data-count="08">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M8 38V18l16-10 16 10v20"/><path d="M18 38V26h12v12"/><circle cx="24" cy="14" r="2"/><path d="M14 22l4 4M30 22l4 4"/></svg></div>
+          <div class="cat-name">娯楽</div>
+          <div class="cat-desc">レクリエーション・心理的ウェルビーイング</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-3" data-count="09">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 34h36"/><path d="M10 34V22a14 14 0 0 1 28 0v12"/><path d="M18 34v-8h12v8"/><circle cx="36" cy="14" r="4"/><path d="M36 10v-4M40 14h4"/></svg></div>
+          <div class="cat-name">睡眠・住環境</div>
+          <div class="cat-desc">居住空間設計・サーカディアンリズム</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+        <div class="cat-card fade-in fade-in-delay-4" data-count="10">
+          <div class="cat-icon"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6l6 6-6 6"/><path d="M30 6l-6 6 6 6"/><rect x="8" y="22" width="32" height="20" rx="3"/><path d="M16 30h6M28 30h4M16 36h16"/></svg></div>
+          <div class="cat-name">作業環境</div>
+          <div class="cat-desc">ワークスペース・ツール・自動化</div>
+          <div class="cat-count font-space">10 CASES</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== 8 BASE MODULES ===== -->
+  <section class="modules" id="modules">
+    <div class="container">
+      <div class="section-label font-space">8 BASE MODULES</div>
+      <h2 class="section-title fade-in">月面基地を歩いてみよう。</h2>
+      <p class="section-desc fade-in">月面基地は8つの機能モジュールで構成されます。それぞれのモジュールで、どんな生活用品やテクノロジーが必要になるのか。3Dビジュアルとともに想像してみてください。</p>
+
+      <div class="module-showcase">
+        <div class="module-card fade-in">
+          <img src="images/module_dining.jpg" alt="ダイニングルーム" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 01</div>
+          <div class="module-name">ダイニングルーム</div>
+          <div class="module-desc">食事と団らんの場。クルーの心理的な結びつきを支える生活の中心空間。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-1">
+          <img src="images/module_workspace.jpg" alt="ワークスペースC" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 02</div>
+          <div class="module-name">ワークスペースC（実験室）</div>
+          <div class="module-desc">科学実験・資源分析・技術開発を行う研究の中核施設。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-2">
+          <img src="images/module_plant.jpg" alt="プラントファクトリー" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 03</div>
+          <div class="module-name">プラントファクトリー</div>
+          <div class="module-desc">LED栽培・水耕栽培で食料を自給。酸素生成の役割も。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-3">
+          <img src="images/module_bathroom.jpg" alt="バスルーム" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 04</div>
+          <div class="module-name">バスルーム</div>
+          <div class="module-desc">超音波洗浄・ドライシャンプー。限られた水で衛生を維持。</div>
+        </div>
+        <div class="module-card fade-in">
+          <img src="images/module_playpark.jpg" alt="プレイパーク" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 05</div>
+          <div class="module-name">プレイパーク</div>
+          <div class="module-desc">植物園・VR施設を含む、心理的ウェルビーイングのための空間。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-1">
+          <img src="images/module_recreation.jpg" alt="レクリエーションルーム" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 06</div>
+          <div class="module-name">レクリエーションルーム</div>
+          <div class="module-desc">低重力スポーツ・フィットネスで筋力と骨密度を維持。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-2">
+          <img src="images/module_workroom.jpg" alt="ワークルーム" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 07</div>
+          <div class="module-name">ワークルーム</div>
+          <div class="module-desc">日常業務・地球との通信・ミッション管理の作業空間。</div>
+        </div>
+        <div class="module-card fade-in fade-in-delay-3">
+          <img src="images/module_private.jpg" alt="プライベートルーム" class="module-img" loading="lazy">
+          <div class="module-num font-space">MODULE 08</div>
+          <div class="module-name">プライベートルーム</div>
+          <div class="module-desc">睡眠・プライベート時間のための個室。サーカディアン照明付き。</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== DOWNLOAD ===== -->
+  <section class="download" id="download">
+    <div class="container">
+      <div class="section-label font-space" style="color: var(--moon-gold-light);">FREE DOWNLOAD</div>
+      <h2 class="section-title fade-in" style="color:#fff; font-size: clamp(2rem, 4vw, 3rem);">
+        月面生活を、<br>あなたの手に。
+      </h2>
+      <p class="section-desc fade-in" style="margin: 0 auto 1rem; text-align: center; color: rgba(255,255,255,0.6);">
+        ブックレットとリサーチレポートの2冊セット。<br>
+        月面での暮らしを考えるための知のツールキットを、無料で公開しています。
+      </p>
+
+      <div class="download-cards">
+        <div class="dl-card fade-in">
+          <div class="dl-card-tag font-space">BOOKLET</div>
+          <h3>Space Life on the Moon<br>ブックレット</h3>
+          <p>月面環境の基礎知識、月面基地のロードマップ、8つの基地モジュールの3Dビジュアル。月面生活の全体像を掴むためのガイドブック。</p>
+          <a href="#" class="btn-primary" onclick="alert('Coming soon'); return false;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            ブックレットをダウンロード
+          </a>
+        </div>
+
+        <div class="dl-card fade-in fade-in-delay-2">
+          <div class="dl-card-tag font-space">RESEARCH REPORT</div>
+          <h3>月面生活<br>リサーチレポート</h3>
+          <p>10カテゴリ &times; 10事例 = 100件のリサーチ事例集。技術成熟度（TRL）、関連機関、配置モジュールまで整理した実用的なレポート。</p>
+          <a href="#" class="btn-primary" onclick="alert('Coming soon'); return false;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            レポートをダウンロード
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-label font-space">ABOUT</div>
+      <h2 class="section-title fade-in">知を分かち合い、<br>未来をつくる。</h2>
+
+      <div class="about-grid">
+        <div class="about-org fade-in">
+          <h3>NPO法人ミラツク</h3>
+          <div class="org-type font-space">MIRATUKU</div>
+          <p>
+            セクターを超えた対話と協働を通じて、社会の課題を解決する知の共有プラットフォーム。「Think Space Life」プロジェクトでは、JAXAとの協働により宇宙での生活をデザインする取り組みを推進。異分野の知見を結びつけ、新たな価値を共創しています。
+          </p>
+        </div>
+        <div class="about-org fade-in fade-in-delay-2">
+          <h3>JAXA</h3>
+          <div class="org-type font-space">Japan Aerospace Exploration Agency</div>
+          <p>
+            日本の宇宙航空研究開発を担う中核機関。Artemis計画への参画、JAXA Lunar Cruiser（トヨタとの共同開発）、SLIM精密着陸技術など、月面探査・居住計画を推進。本プロジェクトでは、宇宙での「生活の質」を高める研究開発を主導しています。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FOOTER ===== -->
+  <footer>
+    <p>
+      Space Life on the Moon &mdash; A project by <a href="https://emerging-future.org/" target="_blank" rel="noopener">NPO法人ミラツク</a> &times; JAXA
+    </p>
+    <p style="margin-top: 0.5rem; font-size: 0.75rem;">
+      &copy; 2026 NPO法人ミラツク. All rights reserved.
+    </p>
+  </footer>
+
+  <!-- ===== STICKY CTA ===== -->
+  <div class="sticky-cta" id="stickyCta">
+    <p>月面生活ツールキット &mdash; 無料で公開中</p>
+    <a href="#download" class="btn-primary">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      ダウンロード
+    </a>
+  </div>
+
+  <!-- ===== JS ===== -->
+  <script>
+    // Generate stars
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      const size = Math.random() * 2 + 0.5;
+      star.style.width = size + 'px';
+      star.style.height = size + 'px';
+      star.style.left = Math.random() * 100 + '%';
+      star.style.top = Math.random() * 100 + '%';
+      star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+      star.style.setProperty('--min-opacity', Math.random() * 0.3);
+      star.style.animationDelay = Math.random() * 5 + 's';
+      starsContainer.appendChild(star);
+    }
+
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Sticky CTA
+    const stickyCta = document.getElementById('stickyCta');
+    const heroSection = document.querySelector('.hero');
+    const downloadSection = document.getElementById('download');
+
+    window.addEventListener('scroll', () => {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      const downloadTop = downloadSection.getBoundingClientRect().top;
+      const windowHeight = window.innerHeight;
+
+      if (heroBottom < 0 && downloadTop > windowHeight) {
+        stickyCta.classList.add('visible');
+      } else {
+        stickyCta.classList.remove('visible');
+      }
+    });
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const href = this.getAttribute('href');
+        if (href === '#') return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
